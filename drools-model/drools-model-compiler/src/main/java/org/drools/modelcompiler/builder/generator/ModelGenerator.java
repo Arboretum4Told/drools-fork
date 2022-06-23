@@ -190,6 +190,17 @@ public class ModelGenerator {
             context.addNamedConsequence(kv.getKey(), kv.getValue().toString());
         }
 
+        // add named consequences from parent rules
+        if ( null != ruleDescr.getParentName()) {
+            final Optional<RuleDescr> parentRuleDescOptional = packageDescr.getRules().stream().filter(rd -> rd.getName().equals(ruleDescr.getParentName())).findFirst();
+            if (parentRuleDescOptional.isPresent()){
+                final RuleDescr parentRuleDesc = parentRuleDescOptional.get();
+                for(Entry<String, Object> kv : parentRuleDesc.getNamedConsequences().entrySet()) {
+                    context.addNamedConsequence(kv.getKey(), kv.getValue().toString());
+                }
+            }
+        }
+
         RuleUnitDescription ruleUnitDescr = context.getRuleUnitDescr();
         BlockStmt ruleVariablesBlock = context.getRuleVariablesBlock();
 
