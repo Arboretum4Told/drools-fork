@@ -223,19 +223,19 @@ public class Consequence {
 
     private void rewriteChannels(BlockStmt consequence) {
         consequence.findAll(MethodCallExpr.class)
-                   .stream()
-                   .map(MethodCallExpr::getScope)
-                   .filter(Optional::isPresent)
-                   .map(Optional::get)
-                   .filter(sc -> sc instanceof ArrayAccessExpr)
-                   .map(aae -> (ArrayAccessExpr)aae)
-                   .filter(aae -> aae.getName().asNameExpr().getNameAsString().equals("channels"))
-                   .forEach(aae -> {
-                       String channelName = aae.getIndex().asStringLiteralExpr().asString();
-                       MethodCallExpr mce = new MethodCallExpr(new NameExpr("drools"), GET_CHANNEL_CALL);
-                       mce.addArgument("\"" + channelName + "\"");
-                       aae.replace(mce);
-                   });
+                    .stream()
+                    .map(MethodCallExpr::getScope)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .filter(sc -> sc instanceof ArrayAccessExpr)
+                    .map(aae -> (ArrayAccessExpr)aae)
+                .filter(aae -> aae.isNameExpr() && aae.getName().asNameExpr().getNameAsString().equals("channels"))
+                .forEach(aae -> {
+                    String channelName = aae.getIndex().asStringLiteralExpr().asString();
+                    MethodCallExpr mce = new MethodCallExpr(new NameExpr("drools"), GET_CHANNEL_CALL);
+                    mce.addArgument("\"" + channelName + "\"");
+                    aae.replace(mce);
+                });
     }
 
     private Set<String> extractUsedDeclarations(BlockStmt ruleConsequence, String consequenceString) {
@@ -272,7 +272,7 @@ public class Consequence {
         for (String modifiedProperty : modifyProperties) {
             NodeList<Expression> arguments = nodeList(new NameExpr(modifiedProperty));
             MethodCallExpr update = new MethodCallExpr(new NameExpr("drools"), "update",
-                                                       arguments);
+                    arguments);
             ruleConsequence.getStatements().add(new ExpressionStmt(update));
         }
 
