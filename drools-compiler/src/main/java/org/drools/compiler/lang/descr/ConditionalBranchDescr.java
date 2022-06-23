@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -81,6 +81,10 @@ public class ConditionalBranchDescr extends BaseDescr {
             }
             if (b instanceof PatternDescr) {
                 patternRelated = (PatternDescr) b; // keep the closest PatternDescr
+                // look for patternDescr by pattern text
+                if (this.getCondition().getContent().toString().startsWith(patternRelated.getIdentifier())) {
+                    break;
+                }
             }
         }
         return patternRelated;
