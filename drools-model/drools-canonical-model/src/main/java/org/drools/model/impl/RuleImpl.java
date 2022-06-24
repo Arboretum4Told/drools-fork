@@ -29,9 +29,11 @@ import org.drools.model.patterns.CompositePatterns;
 public class RuleImpl implements Rule, ModelComponent {
 
     public static final String DEFAULT_CONSEQUENCE_NAME = "default";
+    public static final String DEFAULT_PARENT = "NONE";
 
     private final String pkg;
     private final String name;
+    private final String parent;
     private final String unit;
     private final View view;
     private final Map<String, Consequence> consequences;
@@ -42,6 +44,7 @@ public class RuleImpl implements Rule, ModelComponent {
     public RuleImpl(String pkg, String name, String unit, View view, Consequence consequence, Map<Attribute, Object> attributes, Map<String, Object> metaAttributes) {
         this.pkg = pkg;
         this.name = name;
+        this.parent = DEFAULT_PARENT;
         this.unit = unit;
         this.view = view;
         this.consequences = new HashMap<>();
@@ -57,11 +60,22 @@ public class RuleImpl implements Rule, ModelComponent {
     public RuleImpl(String pkg, String name, String unit, CompositePatterns view, Map<Attribute, Object> attributes, Map<String, Object> metaAttributes) {
         this.pkg = pkg;
         this.name = name;
+        this.parent = DEFAULT_PARENT;
         this.unit = unit;
         this.view = view;
         this.consequences = view.getConsequences();
         this.attributes = attributes;
         this.metaAttributes = metaAttributes;
+    }
+    public RuleImpl(String pkg, String name, String unit, CompositePatterns view, Map<Attribute, Object> attributes, Map<String, Object> metaAttributes, String parent) {
+        this.pkg = pkg;
+        this.name = name;
+        this.unit = unit;
+        this.view = view;
+        this.consequences = view.getConsequences();
+        this.attributes = attributes;
+        this.metaAttributes = metaAttributes;
+        this.parent = parent;
     }
 
     @Override
@@ -98,6 +112,10 @@ public class RuleImpl implements Rule, ModelComponent {
     @Override
     public String getName() {
         return name;
+    }
+
+    public String getParent() {
+        return parent;
     }
 
     @Override

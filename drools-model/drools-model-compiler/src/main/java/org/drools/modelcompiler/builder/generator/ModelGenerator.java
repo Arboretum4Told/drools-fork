@@ -225,6 +225,10 @@ public class ModelGenerator {
             ruleCall.addArgument( toStringLiteral( ruleDescr.getNamespace() ) );
         }
         ruleCall.addArgument( toStringLiteral( ruleDescr.getName() ) );
+        // add parent rule
+        if (ruleDescr.getParentName() != null){
+            ruleCall.addArgument( toStringLiteral(ruleDescr.getParentName()) );
+        }
 
         MethodCallExpr buildCallScope = ruleUnitDescr != null ?
                 new MethodCallExpr(ruleCall, UNIT_CALL).addArgument( new ClassExpr( toClassOrInterfaceType(ruleUnitDescr.getCanonicalName()) ) ) :

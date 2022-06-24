@@ -1475,6 +1475,9 @@ public class PatternDSL extends DSL {
     public static RuleBuilder rule( String pkg, String name ) {
         return new RuleBuilder( VIEW_BUILDER, pkg, name );
     }
+    public static RuleBuilder rule( String pkg, String name, String parent ) {
+        return new RuleBuilder( VIEW_BUILDER, pkg, name, parent );
+    }
 
     // -- query --
 
