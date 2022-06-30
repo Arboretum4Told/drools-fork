@@ -9,7 +9,6 @@
     <artifactId>drools-model</artifactId>
     <version>7.71.0.Final</version>
   </parent>
-  <version>7.71.0.4told</version>
 
   <artifactId>drools-canonical-model</artifactId>
   <packaging>bundle</packaging><!-- bundle = jar + OSGi metadata -->
