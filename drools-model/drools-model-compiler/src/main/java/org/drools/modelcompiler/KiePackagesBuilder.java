@@ -231,7 +231,10 @@ public class KiePackagesBuilder {
                     org.drools.model.impl.RuleImpl ruleImpInput = (org.drools.model.impl.RuleImpl) rule;
                     //Query and get object instead of using String
                     if ( null != ruleImpInput.getParent() && null != pkg.getRule( ruleImpInput.getParent() ) ) {
-                        pkg.getRule( rule.getName() ).setParent( pkg.getRule( ruleImpInput.getParent() ) );
+                        RuleImpl ruleImpl = pkg.getRule( rule.getName());
+                        RuleImpl parentRuleImpl = pkg.getRule( ruleImpInput.getParent());
+                        ruleImpl.setParent( parentRuleImpl );
+                        ruleImpl.setParentInformativeOnly(true);
                     }
                 }
             }
