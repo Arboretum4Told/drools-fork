@@ -19,6 +19,9 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.drools.core.WorkingMemory;
 import org.drools.core.common.RuleBasePartitionId;
@@ -91,6 +94,23 @@ public class ConditionalBranchEvaluator implements Externalizable {
                                          WorkingMemory workingMemory,
                                          Object context) {
         tuple = tuple.skipEmptyHandles();
+        if (condition.getRequiredDeclarations().length > 0){
+            final List<String> requiredDeclarations = Arrays
+                    .stream(condition.getRequiredDeclarations())
+                    .map(declaration -> declaration.getPattern().getObjectType().getClassName())
+                    .collect(Collectors.toList());
+            boolean tupleFound = false;
+            while (!tupleFound){
+                if (requiredDeclarations.contains(tuple.getFactHandle().getObjectClassName())){
+                    // accept this tuple
+                    tupleFound = true;
+                } else if (tuple.getParent() != null){
+                    tuple = tuple.getParent();
+                } else {
+                    throw new RuntimeException("tuple not found for condition "+condition);
+                }
+            }
+        }
         if ( condition.isAllowed( tuple, workingMemory, context ) ) {
             return conditionalExecution;
         }
