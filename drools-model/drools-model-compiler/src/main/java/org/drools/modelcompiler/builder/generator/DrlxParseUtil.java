@@ -396,7 +396,7 @@ public class DrlxParseUtil {
     private static RemoveRootNodeResult findRootNodeViaScopeRec(Expression expr, LinkedList<Expression> acc) {
 
         if (expr.isArrayAccessExpr()) {
-            logger.warn("This might not work on arrayAccessExpr convert them to a method call: {}", expr );
+            logger.debug("This might not work on arrayAccessExpr convert them to a method call: {}", expr );
         }
 
         if (expr instanceof EnclosedExpr) {
