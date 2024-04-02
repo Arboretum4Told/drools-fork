@@ -79,11 +79,11 @@ public class ModifyCompiler {
                                         internalBlock.addStatement(new MethodCallExpr(null, "update", nodeList(new NameExpr(modifiedFact))));
                                     }
                                 } else {
-                                    logger.warn("Found modify statement with incompatible type "+ p.getClass()+" inside if");
+                                    logger.warn("Found modify statement with incompatible type "+ p.getClass()+" inside if" +": "+mvelBlock);
                                 }
                             });
                         } else {
-                            logger.warn("Found modify statement with incompatible type "+ p.getClass());
+                            logger.warn("Found modify statement with incompatible type "+ p.getClass()+": "+mvelBlock);
                         }
                     });
                     s.remove();
